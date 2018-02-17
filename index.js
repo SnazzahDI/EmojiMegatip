@@ -13,26 +13,35 @@ module.exports = class EmojiMegatip extends Plugin {
 
   onMouseHover(e) {
     if(e.target.classList && e.target.classList.contains("emoji")) this.lastEmoji = e.target;
+      else if (e.target.classList && e.target.classList.contains("reaction"))  this.lastEmoji = e.target.firstChild;
   }
 
   onMouseOut(e) {
-    if(e.target.classList && e.target.classList.contains("emoji")) this.lastEmoji = null;
+    if(e.fromElement.classList && (e.fromElement.classList.contains("emoji") || e.fromElement.classList.contains("reaction"))) this.lastEmoji = null;
   }
 
   mut(rec) {
     if(rec.addedNodes && this.lastEmoji) rec.addedNodes.forEach(n => {
       if(n.classList && n.classList.contains('tooltip')){
         let rect = n.getBoundingClientRect();
+        let atBottom = rect.top < 200;
+        console.log('create emoji', atBottom, rect.top)
         let origwidth = rect.width;
         let origheight = rect.height;
-        let img = this.react.createElement(`<img src="${this.lastEmoji.src}" width="128" style="display: -webkit-box; margin-bottom: 5px">`).childNodes[0];
+        let img = this.react.createElement(`<img src="${this.lastEmoji.src}" width="128" style="display: -webkit-box; margin-bottom: 5px; align-self: center">`).childNodes[0];
         n.insertBefore(img, n.childNodes[0]);
 
         let nrect = n.getBoundingClientRect();
         let widthdiff = nrect.width - origwidth;
         let heightdiff = nrect.height - origheight;
         n.style.left = (Number(n.style.left.replace("px", "")) - widthdiff/2) + "px";
-        n.style.top = (Number(n.style.top.replace("px", "")) - heightdiff) + "px";
+        if(atBottom) {
+          n.classList.remove('tooltip-top');
+          n.classList.add('tooltip-bottom');
+          n.style.top = (Number(n.style.top.replace("px", "")) + heightdiff/2) + "px";
+        } else {
+          n.style.top = (Number(n.style.top.replace("px", "")) - heightdiff) + "px";
+        }
         n.style.textAlign = "center";
       }
     });
