@@ -1,0 +1,8 @@
+{
+  "name": "EmojiMegatip",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Snazzah",
+  "description": "Adds the biggest version of the emoji you are hovering over.",
+  "license": "MIT"
+}
