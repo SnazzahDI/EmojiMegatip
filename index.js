@@ -28,7 +28,6 @@ module.exports = class EmojiMegatip extends Plugin {
       if(n.classList && n.classList.contains('tooltip')){
         let rect = n.getBoundingClientRect();
         let atBottom = rect.top < 200;
-        console.log('create emoji', atBottom, rect.top)
         let origwidth = rect.width;
         let origheight = rect.height;
         let img = this.react.createElement(`<img src="${this.lastEmoji.src}" width="128" style="display: -webkit-box; margin-bottom: 5px; align-self: center">`).childNodes[0];
