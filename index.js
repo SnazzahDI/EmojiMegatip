@@ -7,17 +7,20 @@ module.exports = class EmojiMegatip extends Plugin {
     this.mBind = mrs => mrs.forEach(mr => this.mut(mr));
     document.addEventListener('mouseover', this.mhBind);
     document.addEventListener('mouseout', this.moBind);
-    const r = (this.react = this.DI.plugins.get('react'));
+    const r = (this.react = this.manager.get('react'));
     r.on('mutation', this.mBind);
   }
 
   onMouseHover(e) {
     if(e.target.classList && e.target.classList.contains("emoji")) this.lastEmoji = e.target;
       else if (e.target.classList && e.target.classList.contains("reaction"))  this.lastEmoji = e.target.firstChild;
+      else if (e.target.classList && e.target.classList.contains("reaction-count")) this.lastEmoji = e.target.previousSibling;
   }
 
   onMouseOut(e) {
-    if(e.fromElement.classList && (e.fromElement.classList.contains("emoji") || e.fromElement.classList.contains("reaction"))) this.lastEmoji = null;
+    if(
+      (e.fromElement.classList && e.fromElement.classList.contains("emoji") && !e.fromElement.parentNode.classList.contains('reaction'))
+      || (e.fromElement.classList && e.fromElement.classList.contains("reaction"))) this.lastEmoji = null;
   }
 
   mut(rec) {
@@ -50,7 +53,7 @@ module.exports = class EmojiMegatip extends Plugin {
   unload() {
     document.removeEventListener('mouseover', this.mhBind);
     document.removeEventListener('mouseout', this.moBind);
-    r.removeListener('mutation', this.mBind);
+    this.react.removeListener('mutation', this.mBind);
   }
 
   get iconURL() {
