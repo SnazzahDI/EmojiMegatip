@@ -40,9 +40,6 @@ module.exports = class EmojiMegatip extends Plugin {
         if(atBottom) {
           n.classList.remove('tooltip-top');
           n.classList.add('tooltip-bottom');
-          n.style.top = (Number(n.style.top.replace("px", "")) + heightdiff/2) + "px";
-        } else {
-          n.style.top = (Number(n.style.top.replace("px", "")) - heightdiff) + "px";
         }
         n.style.textAlign = "center";
       }
