@@ -25,7 +25,7 @@ module.exports = class EmojiMegatip extends Plugin {
 
   mut(rec) {
     if(rec.addedNodes && this.lastEmoji) rec.addedNodes.forEach(n => {
-      if(n.classList && n.classList.contains('tooltip')){
+      if(n.classList && n.classList.contains('tooltip-1OS-Ti')){
         let rect = n.getBoundingClientRect();
         let atBottom = rect.top < 200;
         let origwidth = rect.width;
@@ -38,8 +38,8 @@ module.exports = class EmojiMegatip extends Plugin {
         let heightdiff = nrect.height - origheight;
         n.style.left = (Number(n.style.left.replace("px", "")) - widthdiff/2) + "px";
         if(atBottom) {
-          n.classList.remove('tooltip-top');
-          n.classList.add('tooltip-bottom');
+          n.classList.remove('top-1pTh1F');
+          n.classList.add('bottom-19kp6S');
         }
         n.style.textAlign = "center";
       }
